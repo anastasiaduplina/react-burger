@@ -1,0 +1,16 @@
+.app {
+  text-align: center;
+  min-height: calc(100vh - 40px);
+  background-color: #131316;
+  max-width: 1920px;
+
+  width: calc(100% - 80px);
+  margin: 40px auto 0;
+}
+.body {
+  display: flex;
+  flex-direction: row;
+  justify-content:center;
+  padding: 16px 20px;
+
+}
