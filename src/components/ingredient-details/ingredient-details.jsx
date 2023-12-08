@@ -5,7 +5,7 @@ import { typeOfIngredientsData } from '../../utils/const';
 function IngredientDetails({ item }) {
   return (
     <div className={style.bigCard}>
-      <img src={item.image_large} alt="Ингредиент" className="mr-5 ml-5" />
+      <img src={item.image_large} alt={item.name}  className="mr-5 ml-5" />
       <p
         className={
           style.bigCardName +

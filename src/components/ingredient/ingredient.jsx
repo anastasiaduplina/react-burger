@@ -16,7 +16,7 @@ function Ingredient({ item, onModalOpen }) {
   }
   return (
     <div className={style.card} onClick={onClick}>
-      <img src={item.image} alt="Продукт" />
+      <img src={item.image} alt={item.name}  />
       <div className={style.price +' mt-1'}>
         <p className="text text_type_digits-default">{item.price}</p>
         <CurrencyIcon type="primary" />

@@ -14,14 +14,12 @@ function Modal({ children, onClose, header = '' }) {
     onClose();
   }
 
-  function onPressEsc(evt) {
-    if (evt.key === 'Escape') {
-      evt.preventDefault();
-      onClose();
-    }
-  }
-
   React.useEffect(() => {
+    function onPressEsc(evt) {
+      if (evt.key === 'Escape') {
+        onClose();
+      }
+    }
     document.addEventListener('keydown', onPressEsc);
     return () => {
       document.removeEventListener('keydown', onPressEsc);

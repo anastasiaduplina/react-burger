@@ -58,7 +58,7 @@ function BurgerConstructor({ data ,onModalOpen}) {
           </p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="medium"  onClick={onClick}>
+        <Button type="primary" size="medium"  onClick={onClick} htmlType='button'>
           Оформить заказ
         </Button>
       </div>
@@ -69,5 +69,6 @@ function BurgerConstructor({ data ,onModalOpen}) {
 export default BurgerConstructor;
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(typeOfIngredientsData),
+  data: PropTypes.arrayOf(typeOfIngredientsData).isRequired,
+  onModalOpen: PropTypes.func.isRequired,
 };

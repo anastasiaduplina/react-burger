@@ -6,7 +6,7 @@ import css from './app-header.module.css';
 
 function AppHeader() {
     return (
-            <menu className={css.app_header_in}>
+            <header className={css.app_header_in}>
 
                 <div className={css.app_header_row}>
                     <BurgerIcon type="primary" />
@@ -21,7 +21,7 @@ function AppHeader() {
                 <ProfileIcon type="primary" />
                     Личный кабинет
                 </div>
-            </menu>
+            </header>
     );
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './app.css';
+import style from'./app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -39,18 +39,16 @@ function App() {
           return Promise.reject(`Ошибка данных`);
         }
       })
-      .catch((error) => {
-        console.log(error.message);
-      });
+      .catch(console.error);
   }, []);
 
   return (
-    <div className='app'>
+    <div className={style.app}>
       <AppHeader />
-      <div className='body'>
+      <main className={style.body}>
         <BurgerIngredients  data={data} onModalOpen={onModalOpen}/>
         <BurgerConstructor  data={dataConstructorExample} onModalOpen={onModalOpen}/>
-      </div>
+      </main>
       {modalIsOpen && (
         <Modal onClose={onModalClose} header={modalHeader}>
           {modalChild}
