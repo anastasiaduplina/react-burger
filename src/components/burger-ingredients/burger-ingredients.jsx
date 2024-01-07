@@ -2,15 +2,39 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './burger-ingredients.module.css';
-import { typeOfIngredientsData } from '../../utils/const';
 import Ingredient from '../ingredient/ingredient';
+import { useSelector } from 'react-redux';
 
-
-function BurgerIngredients({ data, onModalOpen }) {
-  const [current, setCurrent] = React.useState('bun');
+function BurgerIngredients({ onModalOpen }) {
+  const data = useSelector((store) => store.burgerReducer.ingredients);  const [current, setCurrent] = React.useState('bun');
   const bunArray = data.filter((item) => item.type === 'bun');
   const mainArray = data.filter((item) => item.type === 'main');
   const sauceArray = data.filter((item) => item.type === 'sauce');
+  
+  const ingredientsWindow = document.querySelector('#ingredients');
+  const bunElement = document.querySelector('#bun');
+  const sauceElement = document.querySelector('#sauce');
+  const mainElement = document.querySelector('#main');
+
+  const scrollListener = (evt) => {
+    const bunLength = Math.abs(
+      ingredientsWindow.getBoundingClientRect().top -
+        bunElement.getBoundingClientRect().top
+    );
+    const sauceLength = Math.abs(
+      ingredientsWindow.getBoundingClientRect().top -
+        sauceElement.getBoundingClientRect().top
+    );
+    const mainLength = Math.abs(
+      ingredientsWindow.getBoundingClientRect().top -
+        mainElement.getBoundingClientRect().top
+    );
+    const rightTabLength = Math.min(bunLength, sauceLength, mainLength);
+    setCurrent(
+      bunLength === rightTabLength? 'bun': sauceLength === rightTabLength ? 'sauce': 'main'
+    );
+  };
+  
   return (
     <section className={style.section}>
       <div className={style.tab}>
@@ -24,8 +48,9 @@ function BurgerIngredients({ data, onModalOpen }) {
           Начинки
         </Tab>
       </div>
-      <div className={style.ingredients}>
+      <div id="ingredients" onScroll={scrollListener} className={style.ingredients}>
         <p
+        id="bun"
           className={
             style.chapterLabel +
             ' mt-10 text text_type_main-medium'
@@ -39,6 +64,7 @@ function BurgerIngredients({ data, onModalOpen }) {
           ))}
         </div>
         <p
+        id="sauce"
           className={
             style.chapterLabel +
             ' mt-10 text text_type_main-medium'
@@ -51,7 +77,7 @@ function BurgerIngredients({ data, onModalOpen }) {
             <Ingredient item={item} key={item._id} onModalOpen={onModalOpen}/>
           ))}
         </div>
-        <p
+        <p id="main"
           className={
             style.chapterLabel +
             ' mt-10 text text_type_main-medium'
@@ -72,6 +98,5 @@ function BurgerIngredients({ data, onModalOpen }) {
 export default BurgerIngredients;
 
 BurgerIngredients.propTypes = {
-   data: PropTypes.arrayOf(typeOfIngredientsData).isRequired,
   onModalOpen: PropTypes.func.isRequired,
 };

@@ -1,8 +1,9 @@
 import React from 'react';
 import style from './ingredient-details.module.css';
-import { typeOfIngredientsData } from '../../utils/const';
+import { useSelector } from 'react-redux';
 
-function IngredientDetails({ item }) {
+function IngredientDetails() {
+  const item = useSelector((store) => store.burgerReducer.ingredient);
   return (
     <div className={style.bigCard}>
       <img src={item.image_large} alt={item.name}  className="mr-5 ml-5" />
@@ -37,7 +38,3 @@ function IngredientDetails({ item }) {
 }
 
 export default IngredientDetails;
-
-IngredientDetails.propTypes = {
-  item: typeOfIngredientsData.isRequired,
-};

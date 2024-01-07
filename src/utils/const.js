@@ -14,6 +14,7 @@ const typeOfIngredientsData = PropTypes.shape({
   image_large: PropTypes.string,
 });
 const api = 'https://norma.nomoreparties.space/api/ingredients';
+const apiOrder = 'https://norma.nomoreparties.space/api/orders';
 
 
-export { typeOfIngredientsData, api };
+export { typeOfIngredientsData, api, apiOrder};
