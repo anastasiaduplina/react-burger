@@ -4,9 +4,16 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import style from './burger-ingredients.module.css';
 import Ingredient from '../ingredient/ingredient';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { getData } from '../../services/actions/burger-actions';
 
 function BurgerIngredients({ onModalOpen }) {
-  const data = useSelector((store) => store.burgerReducer.ingredients);  const [current, setCurrent] = React.useState('bun');
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(getData());
+  }, [dispatch]);
+  const data = useSelector((store) => store.ingredients.ingredients); 
+  const [current, setCurrent] = React.useState('bun');
   const bunArray = data.filter((item) => item.type === 'bun');
   const mainArray = data.filter((item) => item.type === 'main');
   const sauceArray = data.filter((item) => item.type === 'sauce');

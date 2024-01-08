@@ -4,7 +4,7 @@ import imageDone from '../../images/done.svg';
 import { useSelector } from 'react-redux';
 
 function OrderDetails() {
-  const order = useSelector((store) => store.burgerReducer.order);
+  const order = useSelector((store) => store.order.order);
 
   return (
     <div className={style.bigCard}>

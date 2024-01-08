@@ -3,7 +3,7 @@ import style from './ingredient-details.module.css';
 import { useSelector } from 'react-redux';
 
 function IngredientDetails() {
-  const item = useSelector((store) => store.burgerReducer.ingredient);
+  const item = useSelector((store) => store.ingredientsDetailModal.ingredient);
   return (
     <div className={style.bigCard}>
       <img src={item.image_large} alt={item.name}  className="mr-5 ml-5" />

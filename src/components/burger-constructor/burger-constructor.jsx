@@ -21,9 +21,10 @@ const initialState = { total: 0 };
 
 function BurgerConstructor({ onModalOpen }) {
   const dispatch = useDispatch();
-  const data = useSelector((store) => store.burgerReducer.constructor);
+  
+  const dataBurger = useSelector((store) => store.burgerConstructor.constructor);
+  const dataAll = useSelector((store) => store.ingredients.ingredients); 
   const constId = Date.now();
-  console.log(data);
 
   const [, dropTarget] = useDrop({
     accept: 'ingredient',
@@ -36,7 +37,7 @@ function BurgerConstructor({ onModalOpen }) {
     let qnt = 1;
     if (item.type === 'bun') {
       qnt = 2;
-      const bunElement = data.find((el) => el.type === 'bun');
+      const bunElement = dataBurger.find((el) => el.type === 'bun');
       if (bunElement) {
         dispatch({
           type: DELETE_INGREDIENT,
@@ -52,35 +53,38 @@ function BurgerConstructor({ onModalOpen }) {
       qnt: qnt,
     });
   };
-  let burgerBun = data.find((item) => item.type === 'bun');
-  if(!burgerBun){
+  let burgerBun = dataBurger.find((item) => item.type === 'bun');
+  if(typeof burgerBun==='undefined'){
+  
     burgerBun={
-      _id: '60666c42cc7b410027a1a9b1',
-      name: 'Краторная булка N-200i',
-      type: 'bun',
-      proteins: 80,
-      fat: 24,
-      carbohydrates: 53,
-      calories: 420,
-      price: 1255,
-      image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-      image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-      image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-      __v: 0,
+      name: '',
+      price: 0,
+      image_mobile: '',
+    };
+    if(dataAll.length>0){
+      burgerBun = dataAll.find((item) => item.type === 'bun');
+      let qnt =2;
+      dispatch({
+        type: ADD_INGREDIENT,
+        item: burgerBun,
+        id: constId,
+        qnt: qnt,
+      });
     }
+  
   }
 
   const [stateTotal, dispatchTotal] = useReducer(reducer, initialState);
 
   function reducer(state, action) {
-    const total = data.reduce(
+    const total = dataBurger.reduce(
       (sum, item) => sum + (item.type === 'bun' ? item.price * 2 : item.price),
       0
     );
     return { total: total };
   }
   function onClick() {
-    dispatch(postOrder(data));
+    dispatch(postOrder(dataBurger));
     const modalChild = <OrderDetails />;
     const modalHeader = '';
     onModalOpen(modalChild, modalHeader);
@@ -94,7 +98,7 @@ function BurgerConstructor({ onModalOpen }) {
   }
   React.useEffect(() => {
     dispatchTotal();
-  }, [data]);
+  }, [dataBurger]);
   const inactiveButtonStyle = burgerBun
     ? {}
     : { opacity: 0.5, cursor: 'default' };
@@ -109,7 +113,7 @@ function BurgerConstructor({ onModalOpen }) {
         thumbnail={burgerBun.image_mobile}
       />
       <div className={style.list + ' mt-4 mb-4 pr-4'}>
-      {data.map(
+      {dataBurger.map(
           (el, index) =>
           el.type !== 'bun' && (
             <IngredientConstructor

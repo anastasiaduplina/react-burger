@@ -7,7 +7,6 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function Body({ onModalOpen }) {
-    console.log("888");
   return (
     <div className={style.main}>
       <DndProvider backend={HTML5Backend}>

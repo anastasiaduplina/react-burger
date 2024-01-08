@@ -1,10 +1,13 @@
 import { api } from '../../utils/const';
-import { LOAD_INGREDIENTS, ORDER_NUMBER, ORDER_CLEAR } from './index';
+import { LOAD_INGREDIENTS, ORDER_NUMBER, REQUEST_PENDING, REQUEST_SUCCESS, REQUEST_FAILURE } from './index';
 import { apiOrder } from '../../utils/const';
 
 export function getData() {
   return function (dispatch) {
-    console.log("hsjgcjsdckh");
+    dispatch({
+      type: REQUEST_PENDING,
+    });
+
     fetch(api)
       .then((answer) => {
         if (answer.ok) {
@@ -18,18 +21,31 @@ export function getData() {
             type: LOAD_INGREDIENTS,
             data: answer.data,
           });
+          dispatch({
+            type: REQUEST_SUCCESS,
+          });
         } else {
+          dispatch({
+            type: REQUEST_FAILURE,
+          });
           return Promise.reject(`Ошибка данных`);
         }
       })
       .catch((error) => {
         console.log(error.message);
+        dispatch({
+          type: REQUEST_FAILURE,
+        });
       });
   };
 }
 
 export function postOrder(data) {
   return async function (dispatch) {
+    dispatch({
+      type: REQUEST_PENDING,
+    });
+
     const orderArray = data.map((item) => item._id);
     const response = await fetch(apiOrder, {
       method: 'POST',
@@ -52,16 +68,26 @@ export function postOrder(data) {
             type: ORDER_NUMBER,
             number: res.order.number,
           });
+        //   dispatch({
+        //     type: ORDER_CLEAR,
+        //   });
           dispatch({
-            type: ORDER_CLEAR,
+            type: REQUEST_SUCCESS,
           });
         } else {
+          dispatch({
+            type: REQUEST_FAILURE,
+          });
           return Promise.reject(`Ошибка данных`);
         }
       })
       .catch((error) => {
         console.log(error.message);
+        dispatch({
+          type: REQUEST_FAILURE,
+        });
       });
+
     return response;
   };
 }
